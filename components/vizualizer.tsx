@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Step} from "@/lib/sorting-algorithms";
+import {playNote} from "@/lib/utils";
 
 
 interface VisualizerProps {
@@ -78,8 +79,8 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
         if (steps[currentIndex]) {
             const currentArray = steps[currentIndex].array;
             const currentActionIndices = steps[currentIndex].actionIndices;
-            console.log('Current Array:', currentArray);
-            console.log('Current Action Indices:', currentActionIndices);
+            //console.log('Current Array:', currentArray);
+            //console.log('Current Action Indices:', currentActionIndices);
         }
     }, [steps, currentIndex]);
 
@@ -107,7 +108,7 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
             </div>
             {elapsedTime > 0 ? (
                 <div className="flex justify-center mt-2">
-                    <span className="text-sm text-gray-600">Sorting completed in {elapsedTime / 1000} seconds</span>
+                    <span className="text-sm text-gray-600">Sorting completed in {elapsedTime} seconds</span>
                 </div>
             ) : (
                 <div className="flex justify-center mt-2">
