@@ -8,7 +8,7 @@ import {generateRandomArray} from "@/lib/utils";
 import {bubbleSort, insertionSort, quickSort} from "@/lib/sorting-algorithms";
 
 export default function Home() {
-    const ARRAY_SIZE = 100;
+    const ARRAY_SIZE = 50;
 
     const [array, setArray] = useState<number[]>(generateRandomArray(ARRAY_SIZE));
 

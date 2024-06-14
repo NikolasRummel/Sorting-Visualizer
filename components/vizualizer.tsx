@@ -1,21 +1,26 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
+import {Step} from "@/lib/sorting-algorithms";
+
 
 interface VisualizerProps {
     algorithm: string;
     array: number[];
-    sortFunction: (array: number[]) => Promise<number[][]>;
+    sortFunction: (array: number[]) => Promise<Step[]>;
 }
 
-const Visualizer: React.FC<VisualizerProps> = ({ array, algorithm, sortFunction }: VisualizerProps) => {
-    const [steps, setSteps] = useState<number[][]>([]);
+const DELAY = 25;
+
+const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}: VisualizerProps) => {
+    const [steps, setSteps] = useState<Step[]>([]);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [elapsedTime, setElapsedTime] = useState<number>(0);
     const [startTime, setStartTime] = useState<number | null>(null);
+    const [containerWidth, setContainerWidth] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const animateSort = async () => {
-            const start = Date.now(); // Start timing
+            const start = Date.now();
             setStartTime(start);
             const steps = await sortFunction(array);
             setSteps(steps);
@@ -30,10 +35,10 @@ const Visualizer: React.FC<VisualizerProps> = ({ array, algorithm, sortFunction 
                 index++;
                 if (index >= totalSteps) {
                     clearInterval(interval);
-                    const end = Date.now(); // End timing
-                    setElapsedTime(end - start); // Calculate elapsed time
+                    const end = Date.now();
+                    setElapsedTime(end - start);
                 }
-            }, 1);
+            }, DELAY);
         };
 
         animateSort();
@@ -56,7 +61,6 @@ const Visualizer: React.FC<VisualizerProps> = ({ array, algorithm, sortFunction 
         };
     }, []);
 
-    const [containerWidth, setContainerWidth] = useState<number>(0);
     const calculateBarWidth = (arrayLength: number): string => {
         if (containerWidth === 0) {
             return 'auto';
@@ -69,41 +73,41 @@ const Visualizer: React.FC<VisualizerProps> = ({ array, algorithm, sortFunction 
         return `${barWidth}px`;
     };
 
-    const calculateBarHeight = (value: number): string => {
+
+    useEffect(() => {
         if (steps[currentIndex]) {
-            const maxHeight = Math.max(...steps[currentIndex]);
-            const normalizedHeight = (value / maxHeight) * 100;
-            return `${normalizedHeight}%`;
+            const currentArray = steps[currentIndex].array;
+            const currentActionIndices = steps[currentIndex].actionIndices;
+            console.log('Current Array:', currentArray);
+            console.log('Current Action Indices:', currentActionIndices);
         }
-        return '0%';
-    };
+    }, [steps, currentIndex]);
 
     return (
         <div className="border border-gray-200 p-2 bg-accent">
             <div className="flex justify-center mb-4">
                 <span className="font-semibold">{algorithm}</span>
             </div>
-            <div ref={containerRef} className="flex items-end h-64 mt-2 w-full gap-1" style={{ overflowX: 'auto' }}>
+            <div ref={containerRef} className="flex items-end h-64 mt-2 w-full gap-1" style={{overflowX: 'auto'}}>
                 {steps.length === 0 || currentIndex >= steps.length || !steps[currentIndex] ? (
                     <p className="text-gray-500">Sorting...</p>
                 ) : (
-                    steps[currentIndex].map((value, index) => (
+                    steps[currentIndex].array.map((value, index) => (
                         <div
                             key={index}
-                            className="bg-blue-500"
+                            className={`h-full ${steps[currentIndex].actionIndices.includes(index) ? 'bg-red-500' : 'bg-gray-300'}`}
                             style={{
-                                height: calculateBarHeight(value),
-                                width: calculateBarWidth(steps[currentIndex].length),
+                                height: `${(value / Math.max(...steps[currentIndex].array)) * 100}%`,
+                                width: calculateBarWidth(steps[currentIndex].array.length),
                                 transition: 'height 0.2s ease-in-out',
                             }}
-                        >
-                        </div>
+                        ></div>
                     ))
                 )}
             </div>
             {elapsedTime > 0 && (
-                <div className="flex justify-center mt-4">
-                    <p className="text-sm text-gray-600">Sorting completed in {elapsedTime / 1000} seconds</p>
+                <div className="flex justify-center mt-2">
+                    <span className="text-sm text-gray-600">Sorting completed in {elapsedTime / 1000} seconds</span>
                 </div>
             )}
         </div>
