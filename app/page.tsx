@@ -5,10 +5,10 @@ import {Button} from "@/components/ui/button";
 import Visualizer from "@/components/vizualizer";
 import {useState} from "react";
 import {generateRandomArray} from "@/lib/utils";
-import {bubbleSort, insertionSort, quickSort} from "@/lib/sorting-algorithms";
+import {bubbleSort, heapSort, insertionSort, mergeSort, quickSort} from "@/lib/sorting-algorithms";
 
 export default function Home() {
-    const ARRAY_SIZE = 50;
+    const ARRAY_SIZE = 100;
 
     const [array, setArray] = useState<number[]>(generateRandomArray(ARRAY_SIZE));
 
@@ -27,6 +27,8 @@ export default function Home() {
                 <Visualizer algorithm={"InsertionSort"} array={array} sortFunction={insertionSort}/>
                 <Visualizer algorithm={"BubbleSort"} array={array} sortFunction={bubbleSort}/>
                 <Visualizer algorithm={"QuickSort"} array={array} sortFunction={quickSort}/>
+                <Visualizer algorithm={"MergeSort"} array={array} sortFunction={mergeSort}/>
+                <Visualizer algorithm={"HeapSort"} array={array} sortFunction={heapSort}/>
             </div>
         </main>
     );

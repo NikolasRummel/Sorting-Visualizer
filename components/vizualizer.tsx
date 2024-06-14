@@ -101,15 +101,20 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
                                 width: calculateBarWidth(steps[currentIndex].array.length),
                                 transition: 'height 0.2s ease-in-out',
                             }}
-                        ></div>
+                        />
                     ))
                 )}
             </div>
-            {elapsedTime > 0 && (
+            {elapsedTime > 0 ? (
                 <div className="flex justify-center mt-2">
                     <span className="text-sm text-gray-600">Sorting completed in {elapsedTime / 1000} seconds</span>
                 </div>
+            ) : (
+                <div className="flex justify-center mt-2">
+                    <span className="text-sm text-gray-600">Sorting...</span>
+                </div>
             )}
+
         </div>
     );
 };
