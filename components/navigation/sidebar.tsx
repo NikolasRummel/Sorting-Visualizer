@@ -4,7 +4,6 @@ import React from "react";
 import SidebarLink from "@/components/navigation/sidebar-link";
 import {
     BetweenVerticalStartIcon,
-    ChefHatIcon,
     CircleIcon,
     FastForwardIcon,
     GitCompareIcon, GitMergeIcon,
