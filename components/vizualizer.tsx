@@ -1,7 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Step} from "@/lib/sorting-algorithms";
-import {playNote} from "@/lib/utils";
-
 
 interface VisualizerProps {
     algorithm: string;
@@ -85,7 +83,7 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
     }, [steps, currentIndex]);
 
     return (
-        <div className="border border-gray-200 p-2 bg-accent">
+        <div className="border border-gray-200 dark:border-gray-900 p-2 bg-white dark:bg-neutral-900 rounded-xl hover:transition hover:scale-105">
             <div className="flex justify-center mb-4">
                 <span className="font-semibold">{algorithm}</span>
             </div>
@@ -96,7 +94,7 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
                     steps[currentIndex].array.map((value, index) => (
                         <div
                             key={index}
-                            className={`h-full ${steps[currentIndex].actionIndices.includes(index) ? 'bg-red-500' : 'bg-gray-300'}`}
+                            className={`h-full ${steps[currentIndex].actionIndices.includes(index) ? 'bg-red-500 dark:bg-red-600' : 'bg-gray-300 dark:bg-neutral-100'}`}
                             style={{
                                 height: `${(value / Math.max(...steps[currentIndex].array)) * 100}%`,
                                 width: calculateBarWidth(steps[currentIndex].array.length),

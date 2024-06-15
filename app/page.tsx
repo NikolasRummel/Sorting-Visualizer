@@ -17,8 +17,8 @@ export default function Home() {
     };
 
     return (
-        <main className="m-8">
-            <h1>Sorting visualizer</h1>
+        <section className="ml-4 mt-20">
+            <h2>Sorting visualizer</h2>
             <div className="flex gap-2 mt-2">
                 <Input type="text" value={array.join(', ')} readOnly/>
                 <Button variant="outline" onClick={handleGenerateNewArray}>Generate sample array</Button>
@@ -30,6 +30,6 @@ export default function Home() {
                 <Visualizer algorithm={"MergeSort"} array={array} sortFunction={mergeSort}/>
                 <Visualizer algorithm={"HeapSort"} array={array} sortFunction={heapSort}/>
             </div>
-        </main>
+        </section>
     );
 }
