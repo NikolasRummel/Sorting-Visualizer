@@ -106,7 +106,7 @@ const Visualizer: React.FC<VisualizerProps> = ({algorithm, array, sortFunction}:
             </div>
             {elapsedTime > 0 ? (
                 <div className="flex justify-center mt-2">
-                    <span className="text-sm text-gray-600">Sorting completed in {elapsedTime} seconds</span>
+                    <span className="text-sm text-gray-600">Sorting completed in {elapsedTime/1000} seconds</span>
                 </div>
             ) : (
                 <div className="flex justify-center mt-2">
