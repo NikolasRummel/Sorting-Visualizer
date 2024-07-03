@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {generateRandomArray} from "@/lib/utils";
-import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon} from "lucide-react";
+import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon, Volume2Icon, VolumeXIcon} from "lucide-react";
 import {heapSort, insertionSort, mergeSort, quickSort} from "@/lib/algorithms";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
@@ -17,6 +17,7 @@ export default function InsertionSort() {
     const [initialArray, setInitialArray] = useState<number[]>(generateRandomArray(arraySize));
     const [array, setArray] = useState<number[]>(initialArray);
     const [isPaused, setIsPaused] = useState<boolean>(true);
+    const [soundMuted, setSoundMuted] = useState<boolean>(false);
 
     const handleGenerateNewArray = () => {
         const newArray = generateRandomArray(arraySize);
@@ -32,6 +33,10 @@ export default function InsertionSort() {
 
     const handlePause = () => {
         setIsPaused((prev) => !prev);
+    };
+
+    const handleSoundClick = () => {
+        setSoundMuted((prev) => !prev);
     };
 
     function handleArraySizeChange(value: number[]) {
@@ -57,6 +62,9 @@ export default function InsertionSort() {
                 </Button>
                 <Button variant="destructive" onClick={handleResetArray} className={`${isPaused ? "opacity-40" : ""}`}>
                     <RotateCcwIcon/>
+                </Button>
+                <Button variant="outline" onClick={handleSoundClick}>
+                    {soundMuted ? <VolumeXIcon/> : <Volume2Icon/>}
                 </Button>
                 <div className="flex items-center h-10 ml-auto">
                     <div className="w-56 h-8">
@@ -91,6 +99,7 @@ export default function InsertionSort() {
                 isPaused={isPaused}
                 sortFunction={insertionSort}
                 delay={delay}
+                soundMuted={soundMuted}
             />
         </section>
     );

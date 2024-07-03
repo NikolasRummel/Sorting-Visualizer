@@ -9,9 +9,10 @@ interface VisualizerProps {
     isPaused: boolean;
     sortFunction: (array: number[]) => Promise<Step[]>;
     delay: number; // Simulation speed in milliseconds
+    soundMuted: boolean
 }
 
-const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sortFunction, delay }: VisualizerProps) => {
+const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sortFunction, delay, soundMuted }: VisualizerProps) => {
     const [sortingSteps, setSortingSteps] = useState<Step[]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerWidth, setContainerWidth] = useState<number>(() => containerRef.current?.clientWidth ?? 0);
@@ -122,6 +123,8 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
     };
 
     const playSound = (value: number) => {
+        if(soundMuted) return;
+
         if (!audioContextRef.current) {
             audioContextRef.current = new (window.AudioContext)();
         }
