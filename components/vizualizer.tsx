@@ -109,7 +109,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
             if (sortedIndex !== undefined && index <= sortedIndex) {
                 barClassName = 'bg-green-500';
             } else if (index === currentIndex) {
-                barClassName = 'bg-red-500';
+                barClassName = 'bg-red-700';
             } else if (comparisonIndices && comparisonIndices.includes(index)) {
                 barClassName = 'bg-red-400';
             }
@@ -128,7 +128,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
     };
 
     return (
-        <div className="border border-gray-200 dark:border-gray-900 p-2 bg-white dark:bg-neutral-900 rounded-xl">
+        <div className="border border-gray-200 dark:border-neutral-800 p-2 bg-white dark:bg-black rounded-xl">
             <div className="flex justify-center mb-4">
                 <span className="font-semibold">{algorithm}</span>
             </div>

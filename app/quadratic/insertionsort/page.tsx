@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {generateRandomArray} from "@/lib/utils";
 import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon} from "lucide-react";
-import {insertionSort, quickSort} from "@/lib/algorithms";
+import {heapSort, insertionSort, quickSort} from "@/lib/algorithms";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
 
@@ -62,7 +62,7 @@ export default function InsertionSort() {
                     <div className="w-56 h-8">
                         <Slider
                             min={5}
-                            max={50}
+                            max={200}
                             value={[arraySize]}
                             onValueChange={handleArraySizeChange}
                             className="w-full mb-1"
@@ -90,6 +90,20 @@ export default function InsertionSort() {
                 array={array}
                 isPaused={isPaused}
                 sortFunction={insertionSort}
+                delay={delay}
+            />
+            <Visualizer
+                algorithm={""}
+                array={array}
+                isPaused={isPaused}
+                sortFunction={quickSort}
+                delay={delay}
+            />
+            <Visualizer
+                algorithm={""}
+                array={array}
+                isPaused={isPaused}
+                sortFunction={heapSort}
                 delay={delay}
             />
         </section>
