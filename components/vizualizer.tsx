@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useRef } from 'react';
 import { Step } from "@/lib/algorithms";
 
@@ -18,6 +20,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
     const animationRef = useRef<number | null>(null);
     const pausedStepRef = useRef<number | null>(null); // Reference to store the paused step
     const timerRef = useRef<NodeJS.Timeout | null>(null); // Reference for the timer
+    const audioContextRef = useRef<AudioContext | null>(null); // Reference for the audio context
 
     // Initialize sortingSteps with a single Step containing the unsorted array
     useEffect(() => {
@@ -58,7 +61,6 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
 
         // Only trigger sortArray if not paused
         sortArray();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [array, isPaused]);
 
@@ -66,7 +68,19 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         // Animation loop to progress through sorting steps
         const animateSort = () => {
             if (!isPaused && currentStep < sortingSteps.length - 1) {
-                setCurrentStep(prevStep => prevStep + 1);
+                const nextStep = currentStep + 1;
+                setCurrentStep(nextStep);
+
+                // Play sound for each comparison index
+                const { comparisonIndices, sortedIndex, array } = sortingSteps[nextStep];
+                if (comparisonIndices && comparisonIndices.length > 0 ) {
+                    playSound(sortingSteps[nextStep].array[comparisonIndices[comparisonIndices.length - 1]]);
+                }
+
+                if (sortedIndex !== undefined) {
+                    playSound(array[sortedIndex]);
+                }
+
                 animationRef.current = window.setTimeout(animateSort, delay); // Use delay for next step
             } else {
                 // Clear the timer if animation is finished
@@ -105,6 +119,27 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         if (animationRef.current) {
             clearTimeout(animationRef.current);
         }
+    };
+
+    const playSound = (value: number) => {
+        if (!audioContextRef.current) {
+            audioContextRef.current = new (window.AudioContext)();
+        }
+        const audioContext = audioContextRef.current;
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = 'sine';
+        const frequency = 50 + (value); // Adjust frequency based on the current bar value
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequency in Hz
+        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Volume
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1); // Play sound for 100ms
+        console.log(frequency);
     };
 
     const calculateBarWidth = (arrayLength: number): string => {

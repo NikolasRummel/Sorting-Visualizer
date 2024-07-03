@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {generateRandomArray} from "@/lib/utils";
 import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon} from "lucide-react";
-import {heapSort, insertionSort, quickSort} from "@/lib/algorithms";
+import {heapSort, insertionSort, mergeSort, quickSort} from "@/lib/algorithms";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
 
@@ -90,20 +90,6 @@ export default function InsertionSort() {
                 array={array}
                 isPaused={isPaused}
                 sortFunction={insertionSort}
-                delay={delay}
-            />
-            <Visualizer
-                algorithm={"Quicksort"}
-                array={array}
-                isPaused={isPaused}
-                sortFunction={quickSort}
-                delay={delay}
-            />
-            <Visualizer
-                algorithm={"Heapsort"}
-                array={array}
-                isPaused={isPaused}
-                sortFunction={heapSort}
                 delay={delay}
             />
         </section>
