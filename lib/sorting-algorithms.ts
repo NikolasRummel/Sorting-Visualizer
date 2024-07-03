@@ -1,6 +1,6 @@
 import exp from "node:constants";
 
-export interface Step {
+ interface Step {
     array: number[];
     actionIndices: number[];
 }
@@ -186,4 +186,3 @@ export const heapSort = async (array: number[]): Promise<Step[]> => {
 
     return steps;
 };
-
