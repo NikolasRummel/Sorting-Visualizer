@@ -35,7 +35,7 @@ export default function Sidebar({open}: SidebarProps) {
                         <SidebarLink link="/1" label="Heapsort" lucidIcon={NetworkIcon}/>
 
                         <p className={"text-blue-600 text-sm font-bold uppercase mt-5"}>Quadratic</p>
-                        <SidebarLink link="/1" label="InsertionSort" lucidIcon={BetweenVerticalStartIcon}/>
+                        <SidebarLink link="/quadratic/insertionsort" label="InsertionSort" lucidIcon={BetweenVerticalStartIcon}/>
                         <SidebarLink link="/1" label="BubbleSort" lucidIcon={CircleIcon}/>
                     </ul>
                 </nav>

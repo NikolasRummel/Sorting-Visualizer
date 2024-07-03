@@ -33,6 +33,7 @@ export const insertionSort = async (array: number[]): Promise<Step[]> => {
         let j = i - 1;
         while (j >= 0 && sortedArray[j] > key) {
             sortedArray[j + 1] = sortedArray[j];
+            console.log([j + 1])
             steps.push({array: [...sortedArray], actionIndices: [j + 1]});
             j = j - 1;
         }
