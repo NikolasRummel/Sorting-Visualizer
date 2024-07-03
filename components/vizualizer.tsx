@@ -128,6 +128,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         if (!audioContextRef.current) {
             audioContextRef.current = new (window.AudioContext)();
         }
+
         const audioContext = audioContextRef.current;
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -135,13 +136,13 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
-        oscillator.type = 'sine';
-        const frequency = 50 + (value); // Adjust frequency based on the current bar value
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequency in Hz
-        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Volume
+        oscillator.type = 'triangle';
+        const frequency = 70 + (value);
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.015, audioContext.currentTime);
 
         oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.1); // Play sound for 100ms
+        oscillator.stop(audioContext.currentTime + 0.1);
         console.log(frequency);
     };
 
