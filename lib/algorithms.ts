@@ -3,23 +3,26 @@ export interface Step {
     currentIndex?: number;
     sortedIndex?: number;
     comparisonIndices?: number[];
+    comparisons?: number;
 }
 
-// Helper function to mark the array as sorted and create steps
 function markArrayAsSorted(array: number[], steps: Step[]) {
+    const lastComparisons = steps.length > 0 ? steps[steps.length - 1].comparisons : 0;
+
     for (let i = 0; i < array.length; i++) {
         steps.push({
             array: [...array],
             sortedIndex: i,
             currentIndex: i, // Mark currentIndex for sorted items
+            comparisons: lastComparisons
         });
     }
 }
 
-// insertionSort function with step-by-step visualization
 export async function insertionSort(array: number[]): Promise<Step[]> {
     const steps: Step[] = [];
     const n = array.length;
+    let comparisons = 0;
 
     // Clone the array to preserve the initial state
     const sortedArray = [...array];
@@ -35,10 +38,13 @@ export async function insertionSort(array: number[]): Promise<Step[]> {
         while (compareIndex >= 0 && sortedArray[compareIndex] > current) {
             // Prepare the state before insertion
             comparisonIndices.push(compareIndex);
+            comparisons++;
+
             steps.push({
                 array: [...sortedArray],
                 currentIndex,
                 comparisonIndices: [currentIndex, compareIndex], // Highlight current and compared element
+                comparisons,
             });
 
             // Shift element to the right
@@ -50,6 +56,7 @@ export async function insertionSort(array: number[]): Promise<Step[]> {
                 array: [...sortedArray],
                 currentIndex,
                 comparisonIndices: [currentIndex, compareIndex + 1], // Highlight current and swapped element
+                comparisons,
             });
         }
 
@@ -61,6 +68,7 @@ export async function insertionSort(array: number[]): Promise<Step[]> {
             array: [...sortedArray],
             currentIndex,
             comparisonIndices: [currentIndex, compareIndex + 1], // Highlight current and insertion point
+            comparisons,
         });
     }
 
@@ -72,6 +80,7 @@ export async function insertionSort(array: number[]): Promise<Step[]> {
 export async function mergeSort(array: number[]): Promise<Step[]> {
     const steps: Step[] = [];
     const n = array.length;
+    let comparisons = 0;
 
     // Clone the array to preserve the initial state
     const originalArray = [...array];
@@ -86,6 +95,7 @@ export async function mergeSort(array: number[]): Promise<Step[]> {
                 array: [...arr],
                 currentIndex: middle,
                 comparisonIndices: [middle],
+                comparisons,
             });
 
             // Recursively sort left and right halves
@@ -111,28 +121,34 @@ export async function mergeSort(array: number[]): Promise<Step[]> {
             }
 
             // Visualize merging step
+            comparisons++;
             steps.push({
                 array: [...arr],
                 currentIndex: k - 1,
                 comparisonIndices: [k - 1],
+                comparisons,
             });
         }
 
         while (i < leftArray.length) {
             arr[k++] = leftArray[i++];
+            comparisons++;
             steps.push({
                 array: [...arr],
                 currentIndex: k - 1,
                 comparisonIndices: [k - 1],
+                comparisons,
             });
         }
 
         while (j < rightArray.length) {
             arr[k++] = rightArray[j++];
+            comparisons++;
             steps.push({
                 array: [...arr],
                 currentIndex: k - 1,
                 comparisonIndices: [k - 1],
+                comparisons,
             });
         }
     }
@@ -149,6 +165,7 @@ export async function mergeSort(array: number[]): Promise<Step[]> {
 export async function quickSort(array: number[]): Promise<Step[]> {
     const steps: Step[] = [];
     const n = array.length;
+    let comparisons = 0;
 
     // Clone the array to preserve the initial state
     const originalArray = [...array];
@@ -174,10 +191,12 @@ export async function quickSort(array: number[]): Promise<Step[]> {
                 [arr[i], arr[j]] = [arr[j], arr[i]];
 
                 // Visualize swapping step
+                comparisons++;
                 steps.push({
                     array: [...arr],
                     currentIndex: j,
                     comparisonIndices: [i, j],
+                    comparisons,
                 });
             }
         }
@@ -186,10 +205,12 @@ export async function quickSort(array: number[]): Promise<Step[]> {
         [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
 
         // Visualize swapping pivot into place
+        comparisons++;
         steps.push({
             array: [...arr],
             currentIndex: i + 1,
             comparisonIndices: [i + 1, high],
+            comparisons,
         });
 
         return i + 1;
@@ -203,9 +224,11 @@ export async function quickSort(array: number[]): Promise<Step[]> {
 
     return steps;
 }
+
 export async function heapSort(array: number[]): Promise<Step[]> {
     const steps: Step[] = [];
     const n = array.length;
+    let comparisons = 0;
 
     // Build max heap
     async function buildMaxHeap(arr: number[]) {
@@ -238,10 +261,12 @@ export async function heapSort(array: number[]): Promise<Step[]> {
             [arr[i], arr[largest]] = [arr[largest], arr[i]];
 
             // Visualize swapping step
+            comparisons++;
             steps.push({
                 array: [...arr],
                 currentIndex: i,
                 comparisonIndices: [i, largest],
+                comparisons,
             });
 
             // Recursively heapify the affected sub-tree
@@ -259,10 +284,12 @@ export async function heapSort(array: number[]): Promise<Step[]> {
             [arr[0], arr[i]] = [arr[i], arr[0]];
 
             // Visualize swapping step
+            comparisons++;
             steps.push({
                 array: [...arr],
                 currentIndex: 0,
                 comparisonIndices: [0, i],
+                comparisons,
             });
 
             // Reduce heap size and heapify the root element

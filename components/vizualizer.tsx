@@ -14,15 +14,17 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerWidth, setContainerWidth] = useState<number>(() => containerRef.current?.clientWidth ?? 0);
     const [currentStep, setCurrentStep] = useState<number>(0);
+    const [elapsedTime, setElapsedTime] = useState<number>(0); // Elapsed time in milliseconds
     const animationRef = useRef<number | null>(null);
     const pausedStepRef = useRef<number | null>(null); // Reference to store the paused step
+    const timerRef = useRef<NodeJS.Timeout | null>(null); // Reference for the timer
 
     // Initialize sortingSteps with a single Step containing the unsorted array
     useEffect(() => {
-        setSortingSteps([{ array }]);
+        setSortingSteps([{ array, comparisons: 0 }]);
         setCurrentStep(0); // Reset currentStep when array changes
+        setElapsedTime(0); // Reset elapsed time when array changes
         clearAnimation(); // Clear animation when array changes
-
     }, [array]);
 
     useEffect(() => {
@@ -44,7 +46,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         const sortArray = async () => {
             if (!isPaused) {
                 const steps = await sortFunction([...array]);
-                setSortingSteps(steps);
+                setSortingSteps(steps.map(step => ({ ...step, comparisons: step.comparisons ?? 0 })));
 
                 // Resume from the paused step if necessary
                 if (pausedStepRef.current !== null) {
@@ -64,8 +66,13 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         // Animation loop to progress through sorting steps
         const animateSort = () => {
             if (!isPaused && currentStep < sortingSteps.length - 1) {
-                setCurrentStep((prevStep) => prevStep + 1);
-                animationRef.current = window.setTimeout(animateSort, delay); // Use speed for delay
+                setCurrentStep(prevStep => prevStep + 1);
+                animationRef.current = window.setTimeout(animateSort, delay); // Use delay for next step
+            } else {
+                // Clear the timer if animation is finished
+                if (timerRef.current) {
+                    clearInterval(timerRef.current);
+                }
             }
         };
 
@@ -76,7 +83,23 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         return () => {
             clearAnimation(); // Cleanup function to clear animation
         };
-    }, [currentStep, sortingSteps, isPaused, delay]); // Include speed in dependencies
+    }, [currentStep, sortingSteps, isPaused, delay]); // Include delay in dependencies
+
+    useEffect(() => {
+        if (!isPaused && currentStep < sortingSteps.length - 1) {
+            timerRef.current = setInterval(() => {
+                setElapsedTime(prevTime => prevTime + 10);
+            }, 10); // Update every 10 milliseconds
+        } else if ((isPaused || currentStep === sortingSteps.length - 1) && timerRef.current) {
+            clearInterval(timerRef.current);
+        }
+
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+            }
+        };
+    }, [isPaused, currentStep, sortingSteps.length]);
 
     const clearAnimation = () => {
         if (animationRef.current) {
@@ -117,20 +140,36 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
             return (
                 <div
                     key={index}
-                    className={`h-full ${barClassName}`}
+                    className={`relative h-full ${barClassName}`}
                     style={{
                         height: `${(value / Math.max(...array)) * 100}%`,
                         width: calculateBarWidth(array.length),
                     }}
-                />
+                >
+                </div>
             );
         });
     };
 
+    const formatElapsedTime = (time: number): string => {
+        const minutes = Math.floor(time / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((time % 60000) / 1000).toString().padStart(2, '0');
+        const milliseconds = Math.floor((time % 1000) / 10).toString().padStart(2, '0'); // Format as two-digit milliseconds
+        return `${minutes}:${seconds}:${milliseconds}`;
+    };
+
     return (
         <div className="border border-gray-200 dark:border-neutral-800 p-2 bg-white dark:bg-black rounded-xl">
-            <div className="flex justify-center mb-4">
-                <span className="font-semibold">{algorithm}</span>
+            <div className="flex justify-between mb-4">
+                <div className="font-semibold">
+                    {algorithm}
+                </div>
+                <div className="text-xs text-gray-500">
+                    Time: {formatElapsedTime(elapsedTime)}
+                </div>
+                <div className="text-xs text-gray-500">
+                    Comparisons: {sortingSteps[currentStep]?.comparisons ?? 0}
+                </div>
             </div>
             <div ref={containerRef} className="flex items-end h-64 mt-2 w-full gap-1" style={{ overflowX: 'auto' }}>
                 {renderBars()}
@@ -138,4 +177,5 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         </div>
     );
 };
+
 export default Visualizer;

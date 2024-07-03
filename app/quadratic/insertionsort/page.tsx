@@ -86,21 +86,21 @@ export default function InsertionSort() {
             </div>
 
             <Visualizer
-                algorithm={""}
+                algorithm={"Insertionsort"}
                 array={array}
                 isPaused={isPaused}
                 sortFunction={insertionSort}
                 delay={delay}
             />
             <Visualizer
-                algorithm={""}
+                algorithm={"Quicksort"}
                 array={array}
                 isPaused={isPaused}
                 sortFunction={quickSort}
                 delay={delay}
             />
             <Visualizer
-                algorithm={""}
+                algorithm={"Heapsort"}
                 array={array}
                 isPaused={isPaused}
                 sortFunction={heapSort}
