@@ -77,6 +77,49 @@ export async function insertionSort(array: number[]): Promise<Step[]> {
     return steps;
 }
 
+export async function bubbleSort(array: number[]): Promise<Step[]> {
+    const steps: Step[] = [];
+    const n = array.length;
+    let comparisons = 0;
+
+    // Clone the array to preserve the initial state
+    const sortedArray = [...array];
+
+    // Iterate through the array to sort it
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - 1 - i; j++) {
+            const comparisonIndices = [j, j + 1];
+            comparisons++;
+
+            // Prepare the state before comparison
+            steps.push({
+                array: [...sortedArray],
+                currentIndex: j,
+                comparisonIndices,
+                comparisons,
+            });
+
+            // Compare and swap elements if needed
+            if (sortedArray[j] > sortedArray[j + 1]) {
+                [sortedArray[j], sortedArray[j + 1]] = [sortedArray[j + 1], sortedArray[j]];
+
+                // Prepare the state after swap
+                steps.push({
+                    array: [...sortedArray],
+                    currentIndex: j,
+                    comparisonIndices,
+                    comparisons,
+                });
+            }
+        }
+    }
+
+    // Mark the entire array as sorted
+    markArrayAsSorted(sortedArray, steps);
+
+    return steps;
+}
+
 export async function mergeSort(array: number[]): Promise<Step[]> {
     const steps: Step[] = [];
     const n = array.length;
