@@ -30,13 +30,13 @@ export default function Sidebar({open}: SidebarProps) {
                         <SidebarLink link="/all" label="Compare All" lucidIcon={GitCompareIcon}/>
 
                         <p className={"text-blue-600 text-sm font-bold uppercase mb-2 mt-5"}>Logarithmic</p>
-                        <SidebarLink link="/1" label="QuickSort" lucidIcon={FastForwardIcon}/>
-                        <SidebarLink link="/1" label="MergeSort" lucidIcon={GitMergeIcon}/>
-                        <SidebarLink link="/1" label="Heapsort" lucidIcon={NetworkIcon}/>
+                        <SidebarLink link="/logarithmic/quicksort" label="QuickSort" lucidIcon={FastForwardIcon}/>
+                        <SidebarLink link="/logarithmic/mergesort" label="MergeSort" lucidIcon={GitMergeIcon}/>
+                        <SidebarLink link="/logarithmic/heapsort" label="Heapsort" lucidIcon={NetworkIcon}/>
 
                         <p className={"text-blue-600 text-sm font-bold uppercase mt-5"}>Quadratic</p>
                         <SidebarLink link="/quadratic/insertionsort" label="InsertionSort" lucidIcon={BetweenVerticalStartIcon}/>
-                        <SidebarLink link="/1" label="BubbleSort" lucidIcon={CircleIcon}/>
+                        <SidebarLink link="/quadratic/bubblesort" label="BubbleSort" lucidIcon={CircleIcon}/>
                     </ul>
                 </nav>
             </div>
