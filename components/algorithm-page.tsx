@@ -4,12 +4,19 @@ import React, {useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {generateRandomArray} from "@/lib/utils";
 import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon, Volume2Icon, VolumeXIcon} from "lucide-react";
-import {heapSort, insertionSort, mergeSort, quickSort, Step} from "@/lib/algorithms";
+import {Step} from "@/lib/algorithms";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
 import {CopyBlock, nord, atomOneDark} from "react-code-blocks";
 import ComplexityInfo from "@/components/complexity-info";
-import LatexExpression from "@/components/latex-expression";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import InsertionSortAverageCaseAnalysis from "@/components/insertion";
+import CorrectnessProof from "@/components/correctness-proof";
 
 const ARRAY_SIZE_DEFAULT = 25;
 const DELAY_DEFAULT = 50;
@@ -18,7 +25,6 @@ interface IAlgorithmPageProps {
     name: string;
     sortFunction: (array: number[]) => Promise<Step[]>;
 }
-
 
 export default function AlgorithmPage({name, sortFunction}: IAlgorithmPageProps) {
     const [arraySize, setArraySize] = useState<number>(ARRAY_SIZE_DEFAULT);
@@ -112,31 +118,56 @@ export default function AlgorithmPage({name, sortFunction}: IAlgorithmPageProps)
             />
 
             <div className="grid grid-cols-2 gap-12 mt-12">
-                <div className="">
-                    <span className="text-xl font-semibold">Complexity</span>
-                    <span className="block">
-                        Insertion sort is a simple sorting algorithm that builds the final sorted array one item at a
-                        time. It is much less efficient on large lists than more advanced algorithms such as quicksort,
-                        heapsort, or merge sort. However, insertion sort provides several advantages:
-                    </span>
-                    <ul className="list-disc ml-5 mt-2">
-                        <li><strong>Best Case:</strong> O(n) - This occurs when the array is already sorted. The
-                            algorithm only passes through the list once, performing a minimal number of comparisons.
-                        </li>
-                        <li><strong>Average Case:</strong> O(n^2) - This occurs when the elements are in random order.
-                            The algorithm must compare and shift elements multiple times, leading to quadratic time
-                            complexity.
-                        </li>
-                        <li><strong>Worst Case:</strong> O(n^2) - This occurs when the array is sorted in reverse order.
-                            The algorithm must move each element past every other element, resulting in the maximum
-                            number of comparisons and shifts.
-                        </li>
-                    </ul>
-                    <span className="block mt-2">
-                        Insertion sort is particularly useful for small datasets or for nearly sorted arrays where it
-                        can perform very efficiently.
-                    </span>
-                </div>
+                <Accordion type="single" collapsible defaultValue={"item-1"} className="w-full">
+                    <AccordionItem value="item-1">
+                        <AccordionTrigger>Show Description</AccordionTrigger>
+                        <AccordionContent>
+                            <div>
+                                <span className="text-xl font-semibold">Description</span>
+                                <span className="block">
+                                    Insertion sort is a straightforward sorting algorithm that builds the final sorted array or list one element at a time. It works by iterating over each element in the array and inserting it into its correct position relative to the elements that have already been sorted.
+                                </span>
+                                            <span className="block mt-2">
+                                    Here is a step-by-step breakdown of how insertion sort works:
+                                </span>
+                                            <ol className="list-decimal ml-5 mt-2">
+                                                <li><strong>Start:</strong> Begin with the second element (index 1) assuming the
+                                                    first element
+                                                    is trivially sorted.
+                                                </li>
+                                                <li><strong>Comparison and Insertion:</strong> Iterate through the unsorted portion
+                                                    of the
+                                                    array. For each element, compare it with the elements in the sorted portion (to
+                                                    its left)
+                                                    and insert it into its correct position.
+                                                </li>
+                                                <li><strong>Shifting:</strong> Shift larger elements one position to the right to
+                                                    make space for
+                                                    the current element being inserted.
+                                                </li>
+                                                <li><strong>Repeat:</strong> Repeat steps 2 and 3 until all elements in the array
+                                                    are sorted.
+                                                </li>
+                                            </ol>
+                                            <span className="block mt-2">
+                                    Insertion sort is efficient for small datasets or nearly sorted arrays, where it can perform in linear time complexity in the best-case scenario. However, for larger datasets with random order or reverse-sorted order, insertion sort performs with quadratic time complexity, making it less efficient compared to advanced algorithms like quicksort or merge sort.
+                                </span>
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-2">
+                        <AccordionTrigger>Show Proof Of Correctness</AccordionTrigger>
+                        <AccordionContent>
+                            <CorrectnessProof/>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-2">
+                        <AccordionTrigger>Show Probalistic Analysis</AccordionTrigger>
+                        <AccordionContent>
+                            <InsertionSortAverageCaseAnalysis/>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
                 <div>
                     <span className="text-xl font-semibold">Complexity</span>
                     <ComplexityInfo best={"O(n)"} avg={"O(n^2)"} worst={"O(n^2)"}/>
@@ -166,11 +197,6 @@ export default function AlgorithmPage({name, sortFunction}: IAlgorithmPageProps)
                     </div>
                 </div>
             </div>
-            <div>
-                <h2 className="text-xl font-semibold mt-4">Probabilistic Analysis</h2>
-                <LatexExpression text={"y = f(x) = a^x \\text{mit } a>0, a \\not= 1"}/>
-            </div>
-
         </section>
     );
 }

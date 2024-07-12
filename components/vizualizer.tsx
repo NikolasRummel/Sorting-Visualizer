@@ -139,7 +139,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ algorithm, array, isPaused, sor
         oscillator.type = 'triangle';
         const frequency = 70 + (value);
         oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.015, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.135, audioContext.currentTime);
 
         oscillator.start();
         oscillator.stop(audioContext.currentTime + 0.1);
