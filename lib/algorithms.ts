@@ -348,3 +348,77 @@ export async function heapSort(array: number[]): Promise<Step[]> {
 
     return steps;
 }
+
+export async function oddEvenSort(array: number[]): Promise<Step[]> {
+    const steps: Step[] = [];
+    const n = array.length;
+    let sorted = false;
+    let comparisons = 0;
+
+    // Clone the array to preserve the initial state
+    const sortedArray = [...array];
+
+    // Odd-Even Sort algorithm
+    while (!sorted) {
+        sorted = true;
+
+        // Perform bubble sort on odd indexed elements
+        for (let i = 1; i < n - 1; i += 2) {
+            const comparisonIndices = [i, i + 1];
+            comparisons++;
+
+            // Prepare the state before comparison
+            steps.push({
+                array: [...sortedArray],
+                currentIndex: i,
+                comparisonIndices,
+                comparisons,
+            });
+
+            if (sortedArray[i] > sortedArray[i + 1]) {
+                [sortedArray[i], sortedArray[i + 1]] = [sortedArray[i + 1], sortedArray[i]];
+                sorted = false;
+
+                // Prepare the state after swap
+                steps.push({
+                    array: [...sortedArray],
+                    currentIndex: i,
+                    comparisonIndices,
+                    comparisons,
+                });
+            }
+        }
+
+        // Perform bubble sort on even indexed elements
+        for (let i = 0; i < n - 1; i += 2) {
+            const comparisonIndices = [i, i + 1];
+            comparisons++;
+
+            // Prepare the state before comparison
+            steps.push({
+                array: [...sortedArray],
+                currentIndex: i,
+                comparisonIndices,
+                comparisons,
+            });
+
+            if (sortedArray[i] > sortedArray[i + 1]) {
+                [sortedArray[i], sortedArray[i + 1]] = [sortedArray[i + 1], sortedArray[i]];
+                sorted = false;
+
+                // Prepare the state after swap
+                steps.push({
+                    array: [...sortedArray],
+                    currentIndex: i,
+                    comparisonIndices,
+                    comparisons,
+                });
+            }
+        }
+    }
+
+    // Mark the array as sorted by highlighting in green
+    markArrayAsSorted(sortedArray, steps);
+
+    return steps;
+}

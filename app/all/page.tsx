@@ -6,7 +6,7 @@ import {generateRandomArray} from "@/lib/utils";
 import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon, Volume2Icon, VolumeXIcon} from "lucide-react";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
-import {bubbleSort, heapSort, insertionSort, mergeSort, quickSort} from "@/lib/algorithms";
+import {bubbleSort, heapSort, insertionSort, mergeSort, oddEvenSort, quickSort} from "@/lib/algorithms";
 
 const ARRAY_SIZE_DEFAULT = 25;
 const DELAY_DEFAULT = 50;
@@ -131,16 +131,23 @@ export default function AllAlgosPage() {
                     soundMuted={soundMuted}
                 />
 
-                <div className={"col-span-2"}>
-                    <Visualizer
-                        algorithm={"QuickSort"}
-                        array={array}
-                        isPaused={isPaused}
-                        sortFunction={quickSort}
-                        delay={delay}
-                        soundMuted={soundMuted}
-                    />
-                </div>
+                <Visualizer
+                    algorithm={"QuickSort"}
+                    array={array}
+                    isPaused={isPaused}
+                    sortFunction={quickSort}
+                    delay={delay}
+                    soundMuted={soundMuted}
+                />
+
+                <Visualizer
+                    algorithm={"Odd-Even-Sort"}
+                    array={array}
+                    isPaused={isPaused}
+                    sortFunction={oddEvenSort}
+                    delay={delay}
+                    soundMuted={soundMuted}
+                />
             </div>
         </section>
     );

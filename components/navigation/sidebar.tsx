@@ -3,6 +3,7 @@
 import React from "react";
 import SidebarLink from "@/components/navigation/sidebar-link";
 import {
+    AlignCenterHorizontalIcon,
     BetweenVerticalStartIcon,
     CircleIcon,
     FastForwardIcon,
@@ -37,6 +38,7 @@ export default function Sidebar({open}: SidebarProps) {
                         <p className={"text-blue-600 text-sm font-bold uppercase mt-5"}>Quadratic</p>
                         <SidebarLink link="/quadratic/insertionsort" label="InsertionSort" lucidIcon={BetweenVerticalStartIcon}/>
                         <SidebarLink link="/quadratic/bubblesort" label="BubbleSort" lucidIcon={CircleIcon}/>
+                        <SidebarLink link="/quadratic/odd_even" label="Odd-EvenSort" lucidIcon={AlignCenterHorizontalIcon}/>
                     </ul>
                 </nav>
             </div>
