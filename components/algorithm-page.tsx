@@ -7,7 +7,7 @@ import {DicesIcon, PauseIcon, PlayIcon, RotateCcwIcon, Volume2Icon, VolumeXIcon}
 import {Step} from "@/lib/algorithms";
 import {Slider} from "@/components/ui/slider";
 import Visualizer from "@/components/vizualizer";
-import {CopyBlock, nord, atomOneDark} from "react-code-blocks";
+import {CopyBlock, nord} from "react-code-blocks";
 import ComplexityInfo from "@/components/complexity-info";
 import {
     Accordion,
@@ -24,9 +24,13 @@ const DELAY_DEFAULT = 50;
 interface IAlgorithmPageProps {
     name: string;
     sortFunction: (array: number[]) => Promise<Step[]>;
+    children: React.ReactNode
+    bestCase: string,
+    avgCase: string,
+    wortCase: string,
 }
 
-export default function AlgorithmPage({name, sortFunction}: IAlgorithmPageProps) {
+export default function AlgorithmPage({name, sortFunction, children, bestCase, avgCase, wortCase }: IAlgorithmPageProps) {
     const [arraySize, setArraySize] = useState<number>(ARRAY_SIZE_DEFAULT);
     const [delay, setDelay] = useState<number>(DELAY_DEFAULT);
     const [initialArray, setInitialArray] = useState<number[]>(generateRandomArray(arraySize));
@@ -161,38 +165,20 @@ export default function AlgorithmPage({name, sortFunction}: IAlgorithmPageProps)
                             <CorrectnessProof/>
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="item-2">
+                    <AccordionItem value="item-3">
                         <AccordionTrigger>Show Probalistic Analysis</AccordionTrigger>
                         <AccordionContent>
                             <InsertionSortAverageCaseAnalysis/>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
+
                 <div>
                     <span className="text-xl font-semibold">Complexity</span>
-                    <ComplexityInfo best={"O(n)"} avg={"O(n^2)"} worst={"O(n^2)"}/>
+                    <ComplexityInfo best={bestCase} avg={avgCase} worst={wortCase}/>
                     <div className={"mt-8"}>
-                        <span className="text-xl font-semibold">Java Code</span>
                         <div className="mt-2">
-                            <CopyBlock
-                                text={"public static int[] insertionSort(int[] sortieren) {\n" +
-                                    "\t\tint temp;\n" +
-                                    "\t\tfor (int i = 1; i < sortieren.length; i++) {\n" +
-                                    "\t\t\ttemp = sortieren[i];\n" +
-                                    "\t\t\tint j = i;\n" +
-                                    "\t\t\twhile (j > 0 && sortieren[j - 1] > temp) {\n" +
-                                    "\t\t\t\tsortieren[j] = sortieren[j - 1];\n" +
-                                    "\t\t\t\tj--;\n" +
-                                    "\t\t\t}\n" +
-                                    "\t\t\tsortieren[j] = temp;\n" +
-                                    "\t\t}\n" +
-                                    "\t\treturn sortieren;\n" +
-                                    "\t}"}
-                                language={"java"}
-                                showLineNumbers={false}
-                                wrapLongLines={true}
-                                theme={nord}
-                            />
+                            {children}
                         </div>
                     </div>
                 </div>
