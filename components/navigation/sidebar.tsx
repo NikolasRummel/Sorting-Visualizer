@@ -7,7 +7,7 @@ import {
     BetweenVerticalStartIcon,
     CircleIcon,
     FastForwardIcon,
-    GitCompareIcon, GitMergeIcon,
+    GitCompareIcon, GitForkIcon, GitMergeIcon,
     HomeIcon, NetworkIcon
 } from "lucide-react";
 
@@ -36,9 +36,16 @@ export default function Sidebar({open}: SidebarProps) {
                         <SidebarLink link="/logarithmic/heapsort" label="Heapsort" lucidIcon={NetworkIcon}/>
 
                         <p className={"text-blue-600 text-sm font-bold uppercase mt-5"}>Quadratic</p>
-                        <SidebarLink link="/quadratic/insertionsort" label="InsertionSort" lucidIcon={BetweenVerticalStartIcon}/>
+                        <SidebarLink link="/quadratic/insertionsort" label="InsertionSort"
+                                     lucidIcon={BetweenVerticalStartIcon}/>
                         <SidebarLink link="/quadratic/bubblesort" label="BubbleSort" lucidIcon={CircleIcon}/>
-                        <SidebarLink link="/quadratic/odd_even" label="Odd-EvenSort" lucidIcon={AlignCenterHorizontalIcon}/>
+                        <SidebarLink link="/quadratic/odd_even" label="Odd-EvenSort"
+                                     lucidIcon={AlignCenterHorizontalIcon}/>
+
+                        <p className={"text-blue-600 text-sm font-bold uppercase mt-5"}>Searching</p>
+                        <SidebarLink link="/search/bfs" label="Breadth-First Search" lucidIcon={GitCompareIcon}/>
+                        <SidebarLink link="/search/dfs" label="Depth-First Search" lucidIcon={GitForkIcon}/>
+
                     </ul>
                 </nav>
             </div>
