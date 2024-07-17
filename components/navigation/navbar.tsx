@@ -21,7 +21,7 @@ const Navbar = ({openSidebar, setOpenSidebar}: Props) => {
 
     useEffect(() => {
         setMounted(true);
-    },[]);
+    }, []);
 
     if (!mounted) {
         return null;
@@ -40,8 +40,11 @@ const Navbar = ({openSidebar, setOpenSidebar}: Props) => {
                                 {openSidebar && (
                                     <>
                                         <Link href={"/"} className={"h-12 w-32 px-1 pt-2.5 self-center mr-20"}>
+                                            <img
+                                                src={"https://media.discordapp.net/attachments/1196169268409159790/1263058803025510461/DHBW-Logo.png?ex=6698daad&is=6697892d&hm=61e2f3a951a164072" +
+                                                    "7752bf66c8638a08e642e06516536c6235ff97ecadb7c10&=&format=webp&quality=lossless&width=1410&height=590"}
+                                                alt={"awd"}/>
                                         </Link>
-
                                     </>
                                 )}
                                 <button

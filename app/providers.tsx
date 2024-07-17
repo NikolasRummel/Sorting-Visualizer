@@ -13,7 +13,7 @@ const inter = Inter({subsets: ["latin"]});
 
 export function Providers({children}: ProvidersProps) {
 
-    const [openSidebar, setOpenSidebar] = React.useState<boolean>(true);
+    const [openSidebar, setOpenSidebar] = React.useState<boolean>(false);
     return (
         <ThemeProvider attribute="class">
             <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar}/>
