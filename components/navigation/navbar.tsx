@@ -8,6 +8,10 @@ import {Disclosure} from "@headlessui/react";
 import {MenuIcon, XIcon} from "lucide-react";
 import Sidebar from "@/components/navigation/sidebar";
 import ThemeToggle from "@/components/navigation/theme-toggle";
+import logoBlack from "@/public/logo_black.png"
+import logoWhite from "@/public/logo_white.png"
+import {useTheme} from "next-themes";
+import Image from "next/image";
 
 interface Props {
     openSidebar: boolean
@@ -17,16 +21,27 @@ interface Props {
 const Navbar = ({openSidebar, setOpenSidebar}: Props) => {
     let pathname = usePathname() || "/";
 
+    const { resolvedTheme } = useTheme();
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+        setIsDarkTheme(resolvedTheme === "dark" || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            && resolvedTheme !== "light");
+    }, [resolvedTheme]);
 
     if (!mounted) {
         return null;
     }
 
+    const getLogo = () => {
+        if (resolvedTheme === "dark" || (isDarkTheme && resolvedTheme !== "light")) {
+            return logoWhite;
+        } else {
+            return logoBlack;
+        }
+    };
 
     return (
         <>
@@ -39,11 +54,8 @@ const Navbar = ({openSidebar, setOpenSidebar}: Props) => {
 
                                 {openSidebar && (
                                     <>
-                                        <Link href={"/"} className={"h-12 w-32 px-1 pt-2.5 self-center mr-20"}>
-                                            <img
-                                                src={"https://media.discordapp.net/attachments/1196169268409159790/1263058803025510461/DHBW-Logo.png?ex=6698daad&is=6697892d&hm=61e2f3a951a164072" +
-                                                    "7752bf66c8638a08e642e06516536c6235ff97ecadb7c10&=&format=webp&quality=lossless&width=1410&height=590"}
-                                                alt={"awd"}/>
+                                        <Link href={"/"} className={"h-12 w-32 px-2 mr-2 pt-2.5 self-center"}>
+                                            <Image src={getLogo()} alt={"Logo"} width={897} height={262}/>
                                         </Link>
                                     </>
                                 )}
