@@ -25,7 +25,7 @@ export function Providers({ children }: ProvidersProps) {
         <ProvidersContext.Provider value={{ openSidebar, setOpenSidebar }}>
             <ThemeProvider attribute="class">
                 <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
-                <main className={`min-h-screen z-50 ${openSidebar ? "ml-56" : ""}`}>
+                <main className={`min-h-screen ${openSidebar ? "ml-56" : ""}`}>
                     {children}
                 </main>
             </ThemeProvider>
