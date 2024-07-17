@@ -1,8 +1,11 @@
-import React from 'react';
+"use client";
+import React, {useEffect} from 'react';
 import {Button, buttonVariants} from "@/components/ui/button";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Check, GithubIcon, LightbulbIcon, Linkedin} from "lucide-react";
+import {Check, GithubIcon} from "lucide-react";
+import Link from "next/link";
+import { ProvidersContext } from "@/app/providers";
 
 const App: React.FC = () => {
     return (
@@ -15,6 +18,16 @@ const App: React.FC = () => {
 export default App;
 
 const Hero = () => {
+    const { setOpenSidebar } = React.useContext(ProvidersContext);
+
+    const handleOpenSidebar = () => {
+        setOpenSidebar(true);
+    };
+
+    useEffect(() => {
+        setOpenSidebar(false)
+    }, []);
+
     return (
         <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
             <div className="text-center lg:text-start space-y-6">
@@ -41,7 +54,9 @@ const Hero = () => {
                 </p>
 
                 <div className="space-y-4 md:space-y-0 md:space-x-4">
-                    <Button className="w-full md:w-1/3">Get Started</Button>
+                    <Link href={"/quadratic/insertionsort"} passHref legacyBehavior>
+                        <Button className="w-full md:w-1/3" onClick={handleOpenSidebar}>Get Started</Button>
+                    </Link>
 
                     <a
                         rel="noreferrer noopener"

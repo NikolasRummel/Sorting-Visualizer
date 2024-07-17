@@ -1,25 +1,34 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {Inter} from "next/font/google";
+import * as React from "react";
 import Navbar from "@/components/navigation/navbar";
-import {ThemeProvider} from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 interface ProvidersProps {
     children: React.ReactNode;
 }
 
-const inter = Inter({subsets: ["latin"]});
+interface ProvidersContextType {
+    openSidebar: boolean;
+    setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export function Providers({children}: ProvidersProps) {
+export const ProvidersContext = React.createContext<ProvidersContextType>({
+    openSidebar: false,
+    setOpenSidebar: () => {},
+});
 
+export function Providers({ children }: ProvidersProps) {
     const [openSidebar, setOpenSidebar] = React.useState<boolean>(false);
+
     return (
-        <ThemeProvider attribute="class">
-            <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar}/>
-            <main className={`min-h-screen z-50 ${openSidebar? "ml-56" : ""}`}>
-                {children}
-            </main>
-        </ThemeProvider>
+        <ProvidersContext.Provider value={{ openSidebar, setOpenSidebar }}>
+            <ThemeProvider attribute="class">
+                <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+                <main className={`min-h-screen z-50 ${openSidebar ? "ml-56" : ""}`}>
+                    {children}
+                </main>
+            </ThemeProvider>
+        </ProvidersContext.Provider>
     );
 }
