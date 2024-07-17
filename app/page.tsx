@@ -36,11 +36,11 @@ const App: React.FC = () => {
                     ease: "easeInOut",
                 }}
             >
+                <Spotlight
+                    className="-top-40 left-0 md:left-20 md:-top-20"
+                    fill="#9EC9CF"
+                />
                 <div className="relative">
-                    <Spotlight
-                        className="-top-40 left-0 md:left-60 md:-top-20"
-                        fill="#9EC9CF"
-                    />
                     <div className="absolute h-[40rem] w-full">
                         <BackgroundBeams/>
                     </div>
@@ -69,7 +69,7 @@ const App: React.FC = () => {
                                 explanations.
                             </p>
 
-                            <div className="space-y-4 md:space-y-0 md:space-x-4">
+                            <div className="relative space-y-4 md:space-y-0 md:space-x-4">
                                 <Link href={"/quadratic/insertionsort"} passHref legacyBehavior>
                                     <Button className="w-full md:w-1/3" onClick={handleOpenSidebar}>Get
                                         Started</Button>
