@@ -250,3 +250,83 @@ private static int partition(int[] array, int low, int high) {
     );
 };
 
+export const BfsComponent = () => {
+    const code = `def breadth_first_search(graph, source):
+    # Initialize all vertices
+    for each vertex u in graph.vertices:
+        if u != source:
+            u.color = 'white'
+            u.distance = float('inf')
+            u.predecessor = None
+    
+    # Initialize the source vertex
+    source.color = 'gray'
+    source.distance = 0
+    source.predecessor = None
+    
+    # Initialize the queue and enqueue the source
+    queue = []
+    queue.append(source)
+    
+    # Process the queue
+    while queue:
+        u = queue.pop(0)  # Dequeue
+        for v in graph.adjacency_list[u]:
+            if v.color == 'white':
+                v.color = 'gray'
+                v.distance = u.distance + 1
+                v.predecessor = u
+                queue.append(v)
+        u.color = 'black'
+`;
+
+    return (
+        <div>
+            <span className="text-xl font-semibold">Python-like Pseudocode for BFS</span>
+            <CopyBlock
+                text={code}
+                language="python"
+                showLineNumbers={false}
+                wrapLongLines={true}
+                theme={nord}
+            />
+        </div>
+    );
+};
+
+
+export const DfsComponent = () => {
+    const code = `def depth_first_search(graph):
+    # Initialize all vertices
+    for each vertex u in graph.vertices:
+        u.color = 'white'
+        u.predecessor = None
+    
+    # Visit all vertices
+    for each vertex u in graph.vertices:
+        if u.color == 'white':
+            dfs_visit(graph, u)
+
+def dfs_visit(graph, u):
+    u.color = 'gray'
+    for v in graph.adjacency_list[u]:
+        if v.color == 'white':
+            v.predecessor = u
+            dfs_visit(graph, v)
+    u.color = 'black'
+    print("Vertex:", u, "Predecessor:", u.predecessor)
+`;
+
+    return (
+        <div>
+            <span className="text-xl font-semibold">Python-like Pseudocode for DFS</span>
+            <CopyBlock
+                text={code}
+                language="python"
+                showLineNumbers={false}
+                wrapLongLines={true}
+                theme={nord}
+            />
+        </div>
+    );
+};

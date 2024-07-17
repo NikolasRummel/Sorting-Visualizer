@@ -27,7 +27,7 @@ const GraphVisualizerDFS: React.FC = () => {
     const [path, setPath] = useState<Edge[]>([]);
     const [isAnimating, setIsAnimating] = useState(false); // State to control animation
     const [updatedNodes, setUpdatedNodes] = useState<Node[]>([]); // State to manage updated nodes during DFS
-    const [arraySize, setArraySize] = useState<number>(175); // Initial array size
+    const [arraySize, setArraySize] = useState<number>(200); // Initial array size
     const [delay, setDelay] = useState<number>(50); // Initial delay in milliseconds
     const [isPaused, setIsPaused] = useState<boolean>(true); // State to track animation pause
     const [soundMuted, setSoundMuted] = useState<boolean>(false); // State to track sound toggle
